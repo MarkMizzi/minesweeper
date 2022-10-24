@@ -9,11 +9,11 @@ abstract class Model {
 class Board {
 
     static const bombPlaceholder = -1
-    int[][] boardElements
+    int[][] boardElems
     boolean[][] coveredElems
     int selectedX, selectedY
 
-    Board(int[][] board_arr)
+    Board(int cols, int rows, int mines)
 
     void select(int x, int y)
     void moveLeft()
