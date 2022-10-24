@@ -1,11 +1,16 @@
 @startuml
 
+abstract class Model {
+    void attach(View view)
+    void detach(View view)
+    void notifyViews()
+}
+
 class Board {
 
     static const bombPlaceholder = -1
     int[][] boardElements
     boolean[][] coveredElems
-    ViewController viewController
     int selectedX, selectedY
 
     Board(int[][] board_arr)
@@ -18,12 +23,10 @@ class Board {
 
     GameStatus uncover()
 
-    void updateView()
-
     int rows()
     int cols()
     boolean covered(int x, int y)
-    int board_value(int x, int y)
+    int boardValue(int x, int y)
 }
 
 enum GameStatus {
@@ -58,22 +61,26 @@ class GUIViewController {
     void mouseReleased(MouseEvent e) override
 }
 
-interface ViewController {
-    void update()
+interface View {
+    abstract void update()
 }
 
 class Game {
     Board board
-    ViewController viewController
+    View view
 
-    Game(Board board, ViewController viewController)
+    Game(Board board, View view)
 }
 
 interface java.awt.event.KeyListener
 interface java.awt.event.MouseListener
 class javax.swing.JPanel
 
-ViewController <|-- GUIViewController
+interface Controller
+
+Model <|-- Board
+Controller <|-- GUIViewController
+View <|-- GUIViewController
 java.awt.event.KeyListener <|-- GUIViewController
 java.awt.event.MouseListener <|-- GUIViewController
 javax.swing.JPanel <|-- GUIViewController
