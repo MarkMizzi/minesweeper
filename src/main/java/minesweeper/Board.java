@@ -1,6 +1,10 @@
 package minesweeper;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Board extends Model {
     static public final int bombPlaceholder = -1;
@@ -11,10 +15,49 @@ public class Board extends Model {
 
     private int selectedX, selectedY;
 
-    Board(int[][] board) {
-        this.boardElems = board;
-        this.coveredElems = new boolean[this.cols()][this.rows()];
+    Board(int cols, int rows, int mines) {
 
+        if (mines >= cols * rows)
+            throw new IllegalArgumentException("Mines value is greater than number of cells in the board.");
+
+        this.boardElems = new int[cols][rows];
+
+        Random rand = new Random();
+
+        // get all the x positions for mines
+        Set<Integer> mineXs = new TreeSet<>();
+        while (mineXs.size() < mines) {
+            mineXs.add(rand.nextInt(0, cols));
+        }
+
+        // get all the y positions for mines
+        Set<Integer> mineYs = new TreeSet<>();
+        while (mineYs.size() < mines) {
+            mineYs.add(rand.nextInt(0, rows));
+        }
+
+        // fill in the bombs
+        Iterator<Integer> xIt = mineXs.iterator(), yIt = mineYs.iterator();
+        while (xIt.hasNext() && yIt.hasNext())
+            this.boardElems[xIt.next()][yIt.next()] = bombPlaceholder;
+
+        int[][] boardCopy = this.boardElems.clone();
+
+        // fill in around the bombs.
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < cols; y++) {
+                // sum over neighbours
+                for (int nx = Math.max(x-1, 0); nx < Math.min(x+1, cols); nx++)
+                    for (int ny = Math.max(y-1, 0); ny < Math.min(y+1, rows); ny++)
+                        boardCopy[x][y] += this.boardElems[nx][ny];
+
+                // because bombPlaceholder = -1, the number of adjacent bombs is just inverse of the neighbours sum:
+                this.boardElems[x][y] = -boardCopy[x][y];
+            }
+        }
+
+        // everything is covered at first.
+        this.coveredElems = new boolean[cols][rows];
         for (int x = 0; x < this.cols(); x++) {
             Arrays.fill(this.coveredElems[x], true);
         }
