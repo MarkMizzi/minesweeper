@@ -1,0 +1,81 @@
+@startuml
+
+class Board {
+
+    static const BOMB_PLACEHOLDER = -1
+    int[][] board_arr
+    boolean[][] covered_arr
+    ViewController viewController
+    int selected_x, selected_y
+
+    Board(int[][] board_arr)
+
+    void select(int x, int y)
+    void moveLeft()
+    void moveRight()
+    void moveUp()
+    void moveDown()
+
+    GameStatus uncover()
+
+    void updateView()
+
+    int rows()
+    int cols()
+    boolean covered(int x, int y)
+    int board_value(int x, int y)
+}
+
+enum GameStatus {
+    WIN
+    LOSE
+    CONTINUE
+}
+
+enum Difficulty {
+    EASY
+    MEDIUM
+    HARD
+}
+
+class GUIViewController {
+    Board board
+
+    GUIViewController(Board board)
+
+    void update() override
+
+    void paintComponent(Graphics g) override
+
+    void keyPressed(KeyEvent e) override
+    void keyReleased(KeyEvent e) override
+    void keyTyped(keyEvent e) override
+
+    void mouseClicked(MouseEvent e) override
+    void mouseEntered(MouseEvent e) override
+    void mouseExited(MouseEvent e) override
+    void mousePressed(MouseEvent e) override
+    void mouseReleased(MouseEvent e) override
+}
+
+interface ViewController {
+    void update()
+}
+
+class Game {
+    Board board
+    ViewController viewController
+
+    Game(Board board, ViewController viewController)
+}
+
+interface java.awt.event.KeyListener
+interface java.awt.event.MouseListener
+class javax.swing.JPanel
+
+ViewController <|-- GUIViewController
+java.awt.event.KeyListener <|-- GUIViewController
+java.awt.event.MouseListener <|-- GUIViewController
+javax.swing.JPanel <|-- GUIViewController
+
+@enduml
