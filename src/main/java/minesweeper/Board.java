@@ -2,14 +2,12 @@ package minesweeper;
 
 import java.util.Arrays;
 
-public class Board {
+public class Board extends Model {
     static public final int bombPlaceholder = -1;
 
     private int[][] boardElems;
     // indicate which cells in the board are covered.
     private boolean[][] coveredElems;
-
-    private ViewController viewController;
 
     private int selectedX, selectedY;
 
@@ -68,7 +66,7 @@ public class Board {
             }
 
             // draw the board one last time
-            this.updateView();
+            this.notifyViews();
 
             return GameStatus.LOSE;
         }
@@ -76,7 +74,7 @@ public class Board {
         // recursively uncover more cells until we hit boundaries.
         this.recursiveUncover(this.selectedX, this.selectedY);
         // draw the updated board.
-        this.updateView();
+        this.notifyViews();
 
         // did we win? This is only the case if all board cells that are not bombs have been uncovered.
         for (int x = 0; x < this.cols(); x++) {
@@ -88,10 +86,6 @@ public class Board {
         }
 
         return GameStatus.WIN;
-    }
-
-    private void updateView() {
-        this.viewController.update();
     }
 
     int rows() {

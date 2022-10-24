@@ -9,12 +9,13 @@ import java.awt.event.MouseListener;
 
 public final class GUIViewController
         extends JPanel
-        implements MouseListener, KeyListener, ViewController {
+        implements MouseListener, KeyListener, View, Controller {
 
     private Board board;
 
     GUIViewController(Board board) {
         this.board = board;
+        this.board.attach(this);
     }
 
     public void update() {}

@@ -2,10 +2,12 @@ package minesweeper;
 
 public class Game {
     private Board board;
-    private ViewController viewController;
+    private View view;
+    private Controller controller;
 
-    Game(Board board, ViewController viewController) {
+    Game(Board board, View view, Controller controller) {
         this.board = board;
-        this.viewController = viewController;
+        this.view = view;
+        this.controller = controller;
     }
 }
