@@ -2,11 +2,11 @@
 
 class Board {
 
-    static const BOMB_PLACEHOLDER = -1
-    int[][] board_arr
-    boolean[][] covered_arr
+    static const bombPlaceholder = -1
+    int[][] boardElements
+    boolean[][] coveredElems
     ViewController viewController
-    int selected_x, selected_y
+    int selectedX, selectedY
 
     Board(int[][] board_arr)
 
@@ -49,7 +49,7 @@ class GUIViewController {
 
     void keyPressed(KeyEvent e) override
     void keyReleased(KeyEvent e) override
-    void keyTyped(keyEvent e) override
+    void keyTyped(KeyEvent e) override
 
     void mouseClicked(MouseEvent e) override
     void mouseEntered(MouseEvent e) override
