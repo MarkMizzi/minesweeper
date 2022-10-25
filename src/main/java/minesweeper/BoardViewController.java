@@ -114,7 +114,11 @@ public final class BoardViewController
         for (int x = 0; x < board.cols(); x++) {
             for (int y = 0; y < board.rows(); y++) {
                 g.drawImage(
-                        tile(board.boardValue(x, y), board.covered(x, y), false),
+                        tile(
+                                board.boardValue(x, y),
+                                board.covered(x, y),
+                                x == board.getFatalX() && y == board.getFatalY()
+                        ),
                         this.tileX(x),
                         this.tileY(y),
                         this.tileWidth(),

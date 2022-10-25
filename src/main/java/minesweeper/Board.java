@@ -14,6 +14,10 @@ public class Board extends Model {
     // indicate which cells in the board are covered.
     private boolean[][] coveredElems;
 
+    // indicate which cell was fatal (caused game over)
+    private int fatalX = -1;
+    private int fatalY = -1;
+
     // deep copy constructor, useful for tests
     // note that the copy does not have any views attached.
     Board(Board b) {
@@ -114,6 +118,9 @@ public class Board extends Model {
                 Arrays.fill(this.coveredElems[col], false);
             }
 
+            this.fatalX = x;
+            this.fatalY = y;
+
             // draw the board one last time
             this.notifyViews();
 
@@ -136,6 +143,9 @@ public class Board extends Model {
 
         return GameStatus.WIN;
     }
+
+    int getFatalX() { return this.fatalX; }
+    int getFatalY() { return this.fatalY; }
 
     int rows() {
         return this.coveredElems[0].length;

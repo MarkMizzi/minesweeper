@@ -11,6 +11,7 @@ class Board {
     static const bombPlaceholder = -1
     int[][] boardElems
     boolean[][] coveredElems
+    int fatalX, fatalY
 
     Board(Board b)
     Board(int cols, int rows, int mines)
