@@ -56,11 +56,17 @@ interface View {
     abstract void update()
 }
 
-class Game {
-    Board board
-    View view
+class NewGameButton {
+    App app
+}
 
-    Game(Board board, View view)
+class App {
+    NewGameButton newGameButton
+    BoardViewController boardViewController
+    Board board
+
+    App()
+    newGame()
 }
 
 interface java.awt.event.MouseListener
@@ -73,5 +79,6 @@ Controller <|-- BoardViewController
 View <|-- BoardViewController
 java.awt.event.MouseListener <|-- BoardViewController
 javax.swing.JPanel <|-- BoardViewController
+java.awt.Button <|-- NewGameButton
 
 @enduml
