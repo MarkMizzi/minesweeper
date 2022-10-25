@@ -14,8 +14,6 @@ public class Board extends Model {
     // indicate which cells in the board are covered.
     private boolean[][] coveredElems;
 
-    private int selectedX, selectedY;
-
     // deep copy constructor, useful for tests
     // note that the copy does not have any views attached.
     Board(Board b) {
@@ -28,9 +26,6 @@ public class Board extends Model {
         for (int i = 0; i < b.coveredElems.length; i++) {
             this.coveredElems[i] = b.coveredElems[i].clone();
         }
-
-        this.selectedX = b.selectedX;
-        this.selectedY = b.selectedY;
     }
 
     Board(int cols, int rows, int mines) {
@@ -87,23 +82,6 @@ public class Board extends Model {
         }
     }
 
-    void select(int x, int y) {
-        this.selectedX = x;
-        this.selectedY = y;
-    }
-    void moveLeft() {
-        this.selectedX = (this.selectedX - 1) % this.cols();
-    }
-    void moveRight() {
-        this.selectedX = (this.selectedX + 1) % this.cols();
-    }
-    void moveUp() {
-        this.selectedY = (this.selectedY - 1) % this.rows();
-    }
-    void moveDown() {
-        this.selectedY = (this.selectedY + 1) % this.rows();
-    }
-
     private void recursiveUncover(int x, int y) {
         // we've already uncovered this.
         if (this.coveredElems[x][y]) {
@@ -130,13 +108,13 @@ public class Board extends Model {
         }
     }
 
-    GameStatus uncover() {
+    GameStatus uncover(int x, int y) {
 
-        if (this.boardValue(this.selectedX, this.selectedY) == minePlaceholder) {
+        if (this.boardValue(x, y) == minePlaceholder) {
 
             // uncover the rest of the board
-            for (int x = 0; x < this.cols(); x++) {
-                Arrays.fill(this.coveredElems[x], false);
+            for (int col = 0; col < this.cols(); col++) {
+                Arrays.fill(this.coveredElems[col], false);
             }
 
             // draw the board one last time
@@ -146,14 +124,14 @@ public class Board extends Model {
         }
 
         // recursively uncover more cells until we hit boundaries.
-        this.recursiveUncover(this.selectedX, this.selectedY);
+        this.recursiveUncover(x, y);
         // draw the updated board.
         this.notifyViews();
 
         // did we win? This is only the case if all board cells that are not bombs have been uncovered.
-        for (int x = 0; x < this.cols(); x++) {
-            for (int y = 0; y < this.rows(); y++) {
-                if (this.boardValue(x, y) != minePlaceholder && this.covered(x, y)) {
+        for (int col = 0; col < this.cols(); col++) {
+            for (int row = 0; row < this.rows(); row++) {
+                if (this.boardValue(col, row) != minePlaceholder && this.covered(col, row)) {
                     return GameStatus.CONTINUE;
                 }
             }

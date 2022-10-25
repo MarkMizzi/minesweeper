@@ -58,10 +58,9 @@ public class BoardTests {
         for (int x = 0; x < b.cols(); x++) {
             for (int y = 0; y < b.rows(); y++) {
                 Board boardCopy = new Board(b);
-                boardCopy.select(x, y);
                 Assertions.assertEquals(
                         b.boardValue(x, y) == Board.minePlaceholder,
-                        boardCopy.uncover() == GameStatus.LOSE
+                        boardCopy.uncover(x, y) == GameStatus.LOSE
                 );
             }
         }
@@ -74,10 +73,9 @@ public class BoardTests {
         for (int x = 0; x < b.cols(); x++) {
             for (int y = 0; y < b.rows(); y++) {
                 Board boardCopy = new Board(b);
-                boardCopy.select(x, y);
                 Assertions.assertEquals(
                         b.boardValue(x, y) != Board.minePlaceholder,
-                        (boardCopy.uncover() == GameStatus.CONTINUE || boardCopy.uncover() == GameStatus.WIN)
+                        (boardCopy.uncover(x, y) == GameStatus.CONTINUE || boardCopy.uncover(x, y) == GameStatus.WIN)
                 );
             }
         }
