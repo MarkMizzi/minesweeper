@@ -13,6 +13,7 @@ class Board {
     boolean[][] coveredElems
     int selectedX, selectedY
 
+    Board(Board b)
     Board(int cols, int rows, int mines)
 
     void select(int x, int y)
