@@ -11,18 +11,11 @@ class Board {
     static const bombPlaceholder = -1
     int[][] boardElems
     boolean[][] coveredElems
-    int selectedX, selectedY
 
     Board(Board b)
     Board(int cols, int rows, int mines)
 
-    void select(int x, int y)
-    void moveLeft()
-    void moveRight()
-    void moveUp()
-    void moveDown()
-
-    GameStatus uncover()
+    GameStatus uncover(int x, int y)
 
     int rows()
     int cols()
@@ -51,10 +44,6 @@ class GUIViewController {
 
     void paintComponent(Graphics g) override
 
-    void keyPressed(KeyEvent e) override
-    void keyReleased(KeyEvent e) override
-    void keyTyped(KeyEvent e) override
-
     void mouseClicked(MouseEvent e) override
     void mouseEntered(MouseEvent e) override
     void mouseExited(MouseEvent e) override
@@ -73,7 +62,6 @@ class Game {
     Game(Board board, View view)
 }
 
-interface java.awt.event.KeyListener
 interface java.awt.event.MouseListener
 class javax.swing.JPanel
 
@@ -82,7 +70,6 @@ interface Controller
 Model <|-- Board
 Controller <|-- GUIViewController
 View <|-- GUIViewController
-java.awt.event.KeyListener <|-- GUIViewController
 java.awt.event.MouseListener <|-- GUIViewController
 javax.swing.JPanel <|-- GUIViewController
 
