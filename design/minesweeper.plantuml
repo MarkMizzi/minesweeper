@@ -35,10 +35,10 @@ enum Difficulty {
     HARD
 }
 
-class GUIViewController {
+class BoardViewController {
     Board board
 
-    GUIViewController(Board board)
+    BoardViewController(Board board)
 
     void update() override
 
@@ -68,9 +68,9 @@ class javax.swing.JPanel
 interface Controller
 
 Model <|-- Board
-Controller <|-- GUIViewController
-View <|-- GUIViewController
-java.awt.event.MouseListener <|-- GUIViewController
-javax.swing.JPanel <|-- GUIViewController
+Controller <|-- BoardViewController
+View <|-- BoardViewController
+java.awt.event.MouseListener <|-- BoardViewController
+javax.swing.JPanel <|-- BoardViewController
 
 @enduml
