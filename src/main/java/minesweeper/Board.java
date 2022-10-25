@@ -62,8 +62,8 @@ public class Board extends Model {
             for (int y = 0; y < rows; y++) {
                 if (boardCopy[x][y] != minePlaceholder) {
                     // sum over neighbour.
-                    for (int nx = Math.max(x - 1, 0); nx < Math.min(x + 1, cols - 1); nx++)
-                        for (int ny = Math.max(y - 1, 0); ny < Math.min(y + 1, rows - 1); ny++)
+                    for (int nx = Math.max(x - 1, 0); nx <= Math.min(x + 1, cols - 1); nx++)
+                        for (int ny = Math.max(y - 1, 0); ny <= Math.min(y + 1, rows - 1); ny++)
                             this.boardElems[x][y] += boardCopy[nx][ny];
 
                     // because bombPlaceholder = -1, the number of adjacent bombs is just inverse of the neighbours sum:
