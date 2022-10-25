@@ -1,10 +1,10 @@
 package minesweeper;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class Board extends Model {
     static public final int minePlaceholder = -1;
@@ -37,22 +37,19 @@ public class Board extends Model {
 
         Random rand = new Random();
 
-        // get all the x positions for mines
-        Set<Integer> mineXs = new TreeSet<>();
-        while (mineXs.size() < mines) {
-            mineXs.add(rand.nextInt(0, cols));
-        }
-
-        // get all the y positions for mines
-        Set<Integer> mineYs = new TreeSet<>();
-        while (mineYs.size() < mines) {
-            mineYs.add(rand.nextInt(0, rows));
-        }
+        // get all positions for a mine.
+        // Since we don't have a tuple type, we pick a number in the range [0, rows*cols)
+        //      and then interpret it as a flattened 2D position x*rows + y
+        Set<Integer> minePoints = new HashSet<>();
+        while (minePoints.size() < mines)
+            minePoints.add(rand.nextInt(0, rows*cols));
 
         // fill in the bombs
-        Iterator<Integer> xIt = mineXs.iterator(), yIt = mineYs.iterator();
-        while (xIt.hasNext() && yIt.hasNext())
-            this.boardElems[xIt.next()][yIt.next()] = minePlaceholder;
+        for (Integer minePoint : minePoints) {
+            // "delinearize" the 2D position
+            int x = minePoint / rows, y = minePoint % rows;
+            this.boardElems[x][y] = minePlaceholder;
+        }
 
         // deep copy of the board for next step.
         int[][] boardCopy = new int[boardElems.length][];
@@ -84,7 +81,7 @@ public class Board extends Model {
 
     private void recursiveUncover(int x, int y) {
         // we've already uncovered this.
-        if (this.coveredElems[x][y]) {
+        if (!this.coveredElems[x][y]) {
             return;
         }
 
