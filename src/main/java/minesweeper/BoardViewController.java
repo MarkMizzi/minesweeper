@@ -2,8 +2,8 @@ package minesweeper;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import java.awt.Image;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -72,9 +72,18 @@ public final class BoardViewController
 
     BoardViewController(Board board) {
         super();
+
         this.board = board;
         this.board.attach(this);
+
         this.addMouseListener(this);
+        this.setBackground(App.bgColor);
+    }
+
+    public void newGame(Board newBoard) {
+        this.board = newBoard;
+        this.board.attach(this);
+        this.update();
     }
 
     // observing side of Observer pattern
