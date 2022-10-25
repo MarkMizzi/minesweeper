@@ -9,9 +9,16 @@ public class App {
 
     public static final int rows = 16, cols = 16, mines = 50;
 
-    public static final int gap = 10;
+    // UI parameters
+    // gap between elements
+    public static final int hgap = 10, vgap = 10;
+    public static final int borderThickness = 10;
 
     public static final Color bgColor = new Color(192, 192, 192);
+
+    // default width and height
+    public static final int defaultWidth = 720;
+    public static final int defaultHeight = 800;
 
     private BoardViewController boardViewController;
     private NewGameButton newGameButton;
@@ -21,10 +28,10 @@ public class App {
         this.newGameButton = new NewGameButton(this);
 
         BorderLayout borderLayout = new BorderLayout();
-        borderLayout.setHgap(App.gap);
-        borderLayout.setVgap(App.gap);
+        borderLayout.setHgap(App.hgap);
+        borderLayout.setVgap(App.vgap);
 
-        Border border = BorderFactory.createLineBorder(App.bgColor, App.gap);
+        Border border = BorderFactory.createLineBorder(App.bgColor, App.borderThickness);
 
         JPanel content = new JPanel();
 
@@ -39,7 +46,7 @@ public class App {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setContentPane(content);
 
-        window.setSize(250,100);
+        window.setSize(defaultWidth, defaultHeight);
         window.setLocation(100,100);
         window.setVisible(true);
     }
