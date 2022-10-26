@@ -18,6 +18,8 @@ public class Board extends Model {
     private int fatalX = -1;
     private int fatalY = -1;
 
+    private GameStatus status = GameStatus.CONTINUE;
+
     // deep copy constructor, useful for tests
     // note that the copy does not have any views attached.
     Board(Board b) {
@@ -120,43 +122,45 @@ public class Board extends Model {
         }
     }
 
-    GameStatus uncover(int x, int y) {
+    void uncover(int x, int y) {
 
         if (this.boardValue(x, y) == MINE_PLACEHOLDER) {
-
-            // uncover the rest of the board
-            for (int col = 0; col < this.cols(); col++) {
-                Arrays.fill(this.coveredElems[col], false);
-            }
-
             this.fatalX = x;
             this.fatalY = y;
 
-            // draw the board one last time
-            this.notifyViews();
+            this.status = GameStatus.LOSE;
+        } else {
 
-            return GameStatus.LOSE;
-        }
+            // recursively uncover more cells until we hit boundaries.
+            this.recursiveUncover(x, y);
 
-        // recursively uncover more cells until we hit boundaries.
-        this.recursiveUncover(x, y);
-        // draw the updated board.
-        this.notifyViews();
-
-        // did we win? This is only the case if all board cells that are not bombs have been uncovered.
-        for (int col = 0; col < this.cols(); col++) {
-            for (int row = 0; row < this.rows(); row++) {
-                if (this.boardValue(col, row) != MINE_PLACEHOLDER && this.covered(col, row)) {
-                    return GameStatus.CONTINUE;
+            this.status = GameStatus.WIN;
+            // did we win? This is only the case if all board cells that are not bombs have been uncovered.
+            for (int col = 0; col < this.cols(); col++) {
+                for (int row = 0; row < this.rows(); row++) {
+                    if (this.boardValue(col, row) != MINE_PLACEHOLDER && this.covered(col, row)) {
+                        this.status = GameStatus.CONTINUE;
+                        break;
+                    }
                 }
             }
         }
 
-        return GameStatus.WIN;
+        if (this.status == GameStatus.WIN || this.status == GameStatus.LOSE) {
+            // uncover the rest of the board
+            for (int col = 0; col < this.cols(); col++) {
+                Arrays.fill(this.coveredElems[col], false);
+            }
+        }
+
+        // draw the updated board.
+        this.notifyViews();
     }
 
     int getFatalX() { return this.fatalX; }
     int getFatalY() { return this.fatalY; }
+
+    GameStatus getStatus() { return this.status; }
 
     int rows() {
         return this.coveredElems[0].length;

@@ -13,11 +13,12 @@ class Board {
     boolean[][] coveredElems
     boolean[][] flaggedElems
     int fatalX, fatalY
+    GameStatus status
 
     Board(Board b)
     Board(int cols, int rows, int mines)
 
-    GameStatus uncover(int x, int y)
+    void uncover(int x, int y)
     void toggleFlag(int x, int y)
 
     int rows()
