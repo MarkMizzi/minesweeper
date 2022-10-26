@@ -29,7 +29,7 @@ public class BoardTests {
         int mines = 0;
         for (int x = 0; x < b.cols(); x++) {
             for (int y = 0; y < b.rows(); y++) {
-                if (b.boardValue(x, y) == Board.minePlaceholder) {
+                if (b.boardValue(x, y) == Board.MINE_PLACEHOLDER) {
                     mines++;
                 }
             }
@@ -59,7 +59,7 @@ public class BoardTests {
             for (int y = 0; y < b.rows(); y++) {
                 Board boardCopy = new Board(b);
                 Assertions.assertEquals(
-                        b.boardValue(x, y) == Board.minePlaceholder,
+                        b.boardValue(x, y) == Board.MINE_PLACEHOLDER,
                         boardCopy.uncover(x, y) == GameStatus.LOSE
                 );
             }
@@ -74,7 +74,7 @@ public class BoardTests {
             for (int y = 0; y < b.rows(); y++) {
                 Board boardCopy = new Board(b);
                 Assertions.assertEquals(
-                        b.boardValue(x, y) != Board.minePlaceholder,
+                        b.boardValue(x, y) != Board.MINE_PLACEHOLDER,
                         (boardCopy.uncover(x, y) == GameStatus.CONTINUE || boardCopy.uncover(x, y) == GameStatus.WIN)
                 );
             }

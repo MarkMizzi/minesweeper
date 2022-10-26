@@ -6,8 +6,8 @@ import java.util.Random;
 import java.util.Set;
 
 public class Board extends Model {
-    static public final int minePlaceholder = -1;
-    static public final int blankCell = 0;
+    static public final int MINE_PLACEHOLDER = -1;
+    static public final int BLANK_CELL = 0;
 
     private int[][] boardElems;
     // indicate which cells in the board are covered.
@@ -51,7 +51,7 @@ public class Board extends Model {
         for (Integer minePoint : minePoints) {
             // "delinearize" the 2D position
             int x = minePoint / rows, y = minePoint % rows;
-            this.boardElems[x][y] = minePlaceholder;
+            this.boardElems[x][y] = MINE_PLACEHOLDER;
         }
 
         // deep copy of the board for next step.
@@ -63,7 +63,7 @@ public class Board extends Model {
         // fill in around the bombs.
         for (int x = 0; x < cols; x++) {
             for (int y = 0; y < rows; y++) {
-                if (boardCopy[x][y] != minePlaceholder) {
+                if (boardCopy[x][y] != MINE_PLACEHOLDER) {
                     // sum over neighbour.
                     for (int nx = Math.max(x - 1, 0); nx <= Math.min(x + 1, cols - 1); nx++)
                         for (int ny = Math.max(y - 1, 0); ny <= Math.min(y + 1, rows - 1); ny++)
@@ -88,11 +88,11 @@ public class Board extends Model {
             return;
         }
 
-        if (this.boardValue(x, y) != minePlaceholder) {
+        if (this.boardValue(x, y) != MINE_PLACEHOLDER) {
             this.coveredElems[x][y] = false;
 
             // recursively uncover adjacent cells if this one is blank
-            if (this.boardValue(x, y) == blankCell) {
+            if (this.boardValue(x, y) == BLANK_CELL) {
                 if (x < this.cols() - 1)
                     this.recursiveUncover(x + 1, y);
 
@@ -110,7 +110,7 @@ public class Board extends Model {
 
     GameStatus uncover(int x, int y) {
 
-        if (this.boardValue(x, y) == minePlaceholder) {
+        if (this.boardValue(x, y) == MINE_PLACEHOLDER) {
 
             // uncover the rest of the board
             for (int col = 0; col < this.cols(); col++) {
@@ -134,7 +134,7 @@ public class Board extends Model {
         // did we win? This is only the case if all board cells that are not bombs have been uncovered.
         for (int col = 0; col < this.cols(); col++) {
             for (int row = 0; row < this.rows(); row++) {
-                if (this.boardValue(col, row) != minePlaceholder && this.covered(col, row)) {
+                if (this.boardValue(col, row) != MINE_PLACEHOLDER && this.covered(col, row)) {
                     return GameStatus.CONTINUE;
                 }
             }

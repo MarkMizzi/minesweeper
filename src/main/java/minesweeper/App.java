@@ -3,7 +3,6 @@ package minesweeper;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 public class App {
 
@@ -11,14 +10,14 @@ public class App {
 
     // UI parameters
     // gap between elements
-    public static final int hgap = 10, vgap = 10;
-    public static final int borderThickness = 10;
+    public static final int HGAP = 10, VGAP = 10;
+    public static final int BORDER_THICKNESS = 10;
 
-    public static final Color bgColor = new Color(192, 192, 192);
+    public static final Color BG_COLOR = new Color(192, 192, 192);
 
     // default width and height
-    public static final int defaultWidth = 720;
-    public static final int defaultHeight = 800;
+    public static final int DEFAULT_WIDTH = 720;
+    public static final int DEFAULT_HEIGHT = 800;
 
     private BoardViewController boardViewController;
     private NewGameButton newGameButton;
@@ -28,10 +27,10 @@ public class App {
         this.newGameButton = new NewGameButton(this);
 
         BorderLayout borderLayout = new BorderLayout();
-        borderLayout.setHgap(App.hgap);
-        borderLayout.setVgap(App.vgap);
+        borderLayout.setHgap(App.HGAP);
+        borderLayout.setVgap(App.VGAP);
 
-        Border border = BorderFactory.createLineBorder(App.bgColor, App.borderThickness);
+        Border border = BorderFactory.createLineBorder(App.BG_COLOR, App.BORDER_THICKNESS);
 
         JPanel content = new JPanel();
 
@@ -39,14 +38,14 @@ public class App {
         content.add(boardViewController, BorderLayout.CENTER);
         content.add(newGameButton, BorderLayout.NORTH);
 
-        content.setBackground(App.bgColor);
+        content.setBackground(App.BG_COLOR);
         content.setBorder(border);
 
         JFrame window = new JFrame("Minesweeper");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setContentPane(content);
 
-        window.setSize(defaultWidth, defaultHeight);
+        window.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         window.setLocation(100,100);
         window.setVisible(true);
     }

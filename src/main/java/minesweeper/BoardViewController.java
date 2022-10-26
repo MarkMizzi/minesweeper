@@ -61,7 +61,7 @@ public final class BoardViewController
             return BoardViewController.tiles[11];
         }
 
-        if (boardValue == Board.minePlaceholder) {
+        if (boardValue == Board.MINE_PLACEHOLDER) {
             if (fatal) {
                 return BoardViewController.tiles[10];
             }
@@ -77,7 +77,7 @@ public final class BoardViewController
         this.board.attach(this);
 
         this.addMouseListener(this);
-        this.setBackground(App.bgColor);
+        this.setBackground(App.BG_COLOR);
     }
 
     public void newGame(Board newBoard) {
