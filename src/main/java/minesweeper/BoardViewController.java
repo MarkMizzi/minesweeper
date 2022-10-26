@@ -5,14 +5,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public final class BoardViewController
         extends JPanel
         implements MouseListener, View, Controller {
 
+    public static final String WIN_MESSAGE = "YOU WON!!";
     private Board board;
+    private App app;
 
     private static Image tiles[];
 
@@ -73,8 +79,10 @@ public final class BoardViewController
         return BoardViewController.tiles[boardValue];
     }
 
-    BoardViewController(Board board) {
+    BoardViewController(App app, Board board) {
         super();
+
+        this.app = app;
 
         this.board = board;
         this.board.attach(this);
@@ -91,7 +99,26 @@ public final class BoardViewController
 
     // observing side of Observer pattern
     public void update() {
+
         this.repaint();
+
+        if (this.board.getStatus() == GameStatus.WIN) {
+
+            // open a new dialog to congratulate the user for winning.
+            JFrame dialogWindow = new JFrame();
+            JOptionPane.showMessageDialog(dialogWindow, WIN_MESSAGE);
+
+            // When the dialog window closes, we reset the game.
+            // This gives the user a chance to look at the board.
+            dialogWindow.addWindowListener(new WindowAdapter(){
+                // NOTE: This is a closure.
+                public void windowClosing(WindowEvent e) {
+                    app.newGame();
+                }
+            });
+
+            this.app.newGame();
+        }
     }
 
     // convert from board indices to locations/dimensions in the JPanel component
@@ -152,7 +179,7 @@ public final class BoardViewController
         if (d.width > d.height) {
             return new Dimension(d.height * this.board.cols() / this.board.rows(), d.height);
         } else {
-            return new Dimension(d.width, d.width * this.board.cols() / this.board.rows());
+            return new Dimension(d.width, d.width * this.board.rows() / this.board.cols());
         }
     }
 

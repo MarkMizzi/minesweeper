@@ -29,8 +29,12 @@ public class App {
     private BoardViewController boardViewController;
     private NewGameButton newGameButton;
 
+    private static Board defaultBoard() {
+        return new Board(App.cols, App.rows, App.mines);
+    }
+
     App() {
-        this.boardViewController = new BoardViewController(new Board(16, 16, 50));
+        this.boardViewController = new BoardViewController(this, App.defaultBoard());
         this.newGameButton = new NewGameButton(this);
 
         // set up game bar
@@ -81,6 +85,6 @@ public class App {
     }
 
     void newGame() {
-        this.boardViewController.newGame(new Board(App.cols, App.rows, App.mines));
+        this.boardViewController.newGame(App.defaultBoard());
     }
 }
