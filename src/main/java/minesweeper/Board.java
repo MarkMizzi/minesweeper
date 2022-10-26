@@ -124,6 +124,11 @@ public class Board extends Model {
 
     void uncover(int x, int y) {
 
+        if (this.status != GameStatus.CONTINUE) {
+            // game is finished
+            return;
+        }
+
         if (this.boardValue(x, y) == MINE_PLACEHOLDER) {
             this.fatalX = x;
             this.fatalY = y;

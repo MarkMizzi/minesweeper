@@ -11,7 +11,7 @@ import java.awt.event.ComponentEvent;
 
 public class App {
 
-    public static final int rows = 16, cols = 16, mines = 50;
+    public static final int rows = 16, cols = 16, mines = 40;
 
     // UI parameters
     // gap between elements
