@@ -1,7 +1,7 @@
 package minesweeper;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -32,6 +32,7 @@ public final class BoardViewController
                 "bomb.png",
                 "fatal-bomb.png",
                 "covered.png",
+                "flag.png",
         };
 
         tiles = new Image[filenames.length];
@@ -55,9 +56,12 @@ public final class BoardViewController
         }
     }
 
-    private static Image tile(int boardValue, boolean covered, boolean fatal) {
+    private static Image tile(int boardValue, boolean covered, boolean flagged, boolean fatal) {
 
         if (covered) {
+            if (flagged) {
+                return BoardViewController.tiles[12];
+            }
             return BoardViewController.tiles[11];
         }
 
@@ -126,6 +130,7 @@ public final class BoardViewController
                         tile(
                                 board.boardValue(x, y),
                                 board.covered(x, y),
+                                board.flagged(x, y),
                                 x == board.getFatalX() && y == board.getFatalY()
                         ),
                         this.tileX(x),
@@ -140,7 +145,11 @@ public final class BoardViewController
 
     public void mouseClicked(MouseEvent e) {
         int x = boardX(e.getX()), y = boardY(e.getY());
-        this.board.uncover(x, y);
+
+        if (SwingUtilities.isLeftMouseButton(e))
+            this.board.uncover(x, y);
+        else if (SwingUtilities.isRightMouseButton(e))
+            this.board.toggleFlag(x, y);
     }
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}

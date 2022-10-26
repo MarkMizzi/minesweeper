@@ -11,16 +11,19 @@ class Board {
     static const bombPlaceholder = -1
     int[][] boardElems
     boolean[][] coveredElems
+    boolean[][] flaggedElems
     int fatalX, fatalY
 
     Board(Board b)
     Board(int cols, int rows, int mines)
 
     GameStatus uncover(int x, int y)
+    void toggleFlag(int x, int y)
 
     int rows()
     int cols()
     boolean covered(int x, int y)
+    boolean flagged(int x, int y)
     int boardValue(int x, int y)
 }
 

@@ -12,6 +12,7 @@ public class Board extends Model {
     private int[][] boardElems;
     // indicate which cells in the board are covered.
     private boolean[][] coveredElems;
+    private boolean[][] flaggedElems;
 
     // indicate which cell was fatal (caused game over)
     private int fatalX = -1;
@@ -80,6 +81,17 @@ public class Board extends Model {
         for (int x = 0; x < this.cols(); x++) {
             Arrays.fill(this.coveredElems[x], true);
         }
+
+        // nothing is flagged at first.
+        this.flaggedElems = new boolean[cols][rows];
+        for (int x = 0; x < this.cols(); x++) {
+            Arrays.fill(this.flaggedElems[x], false);
+        }
+    }
+
+    public void toggleFlag(int x, int y) {
+        this.flaggedElems[x][y] = !this.flaggedElems[x][y];
+        this.notifyViews();
     }
 
     private void recursiveUncover(int x, int y) {
@@ -152,6 +164,7 @@ public class Board extends Model {
     int cols() {
         return this.coveredElems.length;
     }
+    boolean flagged(int x, int y) { return this.flaggedElems[x][y]; }
     boolean covered(int x, int y) {
         return this.coveredElems[x][y];
     }

@@ -52,6 +52,19 @@ public class BoardTests {
     }
 
     @Test
+    public void testNothingFlaggedAtFirst() {
+        Board b = new Board(16, 16, 10);
+
+        for (int x = 0; x < b.cols(); x++) {
+            for (int y = 0; y < b.rows(); y++) {
+                if (b.flagged(x, y)) {
+                    Assertions.fail();
+                }
+            }
+        }
+    }
+
+    @Test
     public void testLoseOnBomb() {
         Board b = new Board(16, 16, 10);
 
