@@ -1,12 +1,13 @@
 package minesweeper;
 
 import javax.swing.BorderFactory;
+import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class App {
 
@@ -44,6 +45,15 @@ public class App {
 
         gameBar.setBackground(App.BG_COLOR);
 
+        // set up game board
+        JPanel gameBoard = new JPanel(new FlowLayout());
+        gameBoard.add(this.boardViewController);
+
+        gameBoard.setBackground(App.BG_COLOR);
+
+        gameBoard.revalidate();
+        gameBoard.repaint();
+
         // set up main content pane
 
         BorderLayout contentLayout = new BorderLayout(App.HGAP, App.VGAP);
@@ -53,7 +63,7 @@ public class App {
         JPanel content = new JPanel();
 
         content.setLayout(contentLayout);
-        content.add(boardViewController, BorderLayout.CENTER);
+        content.add(gameBoard, BorderLayout.CENTER);
         content.add(gameBar, BorderLayout.NORTH);
 
         content.setBackground(App.BG_COLOR);

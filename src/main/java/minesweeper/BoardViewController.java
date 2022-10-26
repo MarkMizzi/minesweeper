@@ -2,8 +2,7 @@ package minesweeper;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -121,6 +120,7 @@ public final class BoardViewController
         return componentY * this.board.rows() / this.getHeight();
     }
 
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -140,6 +140,19 @@ public final class BoardViewController
                         this
                 );
             }
+        }
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        // Assumes this is the only component in the parent.
+        // Parent should use a layout that respects the preferred size.
+        Dimension d = this.getParent().getSize();
+
+        if (d.width > d.height) {
+            return new Dimension(d.height * this.board.cols() / this.board.rows(), d.height);
+        } else {
+            return new Dimension(d.width, d.width * this.board.cols() / this.board.rows());
         }
     }
 
