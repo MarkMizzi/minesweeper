@@ -140,11 +140,11 @@ public final class BoardViewController
 
     // convert from component locations to board indices
     private int boardX(int componentX) {
-        return componentX * this.board.cols() / this.getWidth();
+        return (componentX * this.board.cols()) / this.getWidth();
     }
 
     private int boardY(int componentY) {
-        return componentY * this.board.rows() / this.getHeight();
+        return (componentY * this.board.rows()) / this.getHeight();
     }
 
     @Override
