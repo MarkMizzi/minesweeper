@@ -9,8 +9,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 public final class BoardViewController
         extends JPanel
