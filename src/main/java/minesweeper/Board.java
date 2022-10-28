@@ -107,17 +107,10 @@ public class Board extends Model {
 
             // recursively uncover adjacent cells if this one is blank
             if (this.boardValue(x, y) == BLANK_CELL) {
-                if (x < this.cols() - 1)
-                    this.recursiveUncover(x + 1, y);
-
-                if (x > 0)
-                    this.recursiveUncover(x - 1, y);
-
-                if (y < this.rows() - 1)
-                    this.recursiveUncover(x, y + 1);
-
-                if (y > 0)
-                    this.recursiveUncover(x, y - 1);
+                // uncover all the neighbours
+                for (int nx = Math.max(x - 1, 0); nx <= Math.min(x + 1, this.cols() - 1); nx++)
+                    for (int ny = Math.max(y - 1, 0); ny <= Math.min(y + 1, this.rows() - 1); ny++)
+                        this.recursiveUncover(nx, ny);
             }
         }
     }
