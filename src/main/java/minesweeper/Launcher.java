@@ -1,10 +1,6 @@
 package minesweeper;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-
-public class Main {
+public class Launcher {
     public static void main(String[] args) {
         App app = new App();
     }
