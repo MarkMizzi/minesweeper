@@ -6,30 +6,37 @@ import java.awt.*;
 
 public class App {
 
-    public static final int rows = 16, cols = 16, mines = 40;
+    static final int rows = 16, cols = 16, mines = 40;
 
     // UI parameters
     // gap between elements
-    public static final int HGAP = 10, VGAP = 10;
-    public static final int BORDER_THICKNESS = 10;
+    static final int HGAP = 10, VGAP = 10;
+    static final int BORDER_THICKNESS = 10;
 
-    public static final String TITLE = "Minesweeper";
+    static final String TITLE = "Minesweeper";
 
-    public static final Color BG_COLOR = new Color(192, 192, 192);
+    static final Color BG_COLOR = new Color(192, 192, 192);
 
     // default width and height
-    public static final int DEFAULT_WIDTH = 720;
-    public static final int DEFAULT_HEIGHT = 800;
+    static final int DEFAULT_WIDTH = 720;
+    static final int DEFAULT_HEIGHT = 800;
 
-    private BoardViewController boardViewController;
-    private NewGameButton newGameButton;
+    private Board board;
+    private final BoardView boardView;
+    private final BoardController boardController;
+    private final NewGameButton newGameButton;
 
     private static Board defaultBoard() {
         return new Board(App.cols, App.rows, App.mines);
     }
 
     App() {
-        this.boardViewController = new BoardViewController(this, App.defaultBoard());
+        this.board = App.defaultBoard();
+        this.boardView = new BoardView(this, this.board);
+        this.boardController = new BoardController(this.board, this.boardView);
+        // add controller to view.
+        this.boardView.addMouseListener(this.boardController);
+
         this.newGameButton = new NewGameButton(this);
 
         // set up game bar
@@ -46,7 +53,7 @@ public class App {
 
         // set up game board
         JPanel gameBoard = new JPanel(new FlowLayout());
-        gameBoard.add(this.boardViewController);
+        gameBoard.add(this.boardView);
 
         gameBoard.setBackground(App.BG_COLOR);
 
@@ -80,6 +87,8 @@ public class App {
     }
 
     void newGame() {
-        this.boardViewController.newGame(App.defaultBoard());
+        this.board = App.defaultBoard();
+        this.boardView.setBoard(this.board);
+        this.boardController.setBoard(this.board);
     }
 }

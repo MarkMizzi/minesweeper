@@ -3,18 +3,16 @@ package minesweeper;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.URL;
 
-public final class BoardViewController
+public final class BoardView
         extends JPanel
-        implements MouseListener, View, Controller {
+        implements View {
 
-    public static final String WIN_MESSAGE = "YOU WON!!";
+    static final String WIN_MESSAGE = "YOU WON!!";
     private Board board;
     private App app;
 
@@ -63,21 +61,21 @@ public final class BoardViewController
 
         if (covered) {
             if (flagged) {
-                return BoardViewController.tiles[12];
+                return BoardView.tiles[12];
             }
-            return BoardViewController.tiles[11];
+            return BoardView.tiles[11];
         }
 
         if (boardValue == Board.MINE_PLACEHOLDER) {
             if (fatal) {
-                return BoardViewController.tiles[10];
+                return BoardView.tiles[10];
             }
-            return BoardViewController.tiles[9];
+            return BoardView.tiles[9];
         }
-        return BoardViewController.tiles[boardValue];
+        return BoardView.tiles[boardValue];
     }
 
-    BoardViewController(App app, Board board) {
+    BoardView(App app, Board board) {
         super();
 
         this.app = app;
@@ -85,12 +83,11 @@ public final class BoardViewController
         this.board = board;
         this.board.attach(this);
 
-        this.addMouseListener(this);
         this.setBackground(App.BG_COLOR);
     }
 
-    public void newGame(Board newBoard) {
-        this.board = newBoard;
+    void setBoard(Board board) {
+        this.board = board;
         this.board.attach(this);
         this.update();
     }
@@ -137,11 +134,11 @@ public final class BoardViewController
     }
 
     // convert from component locations to board indices
-    private int boardX(int componentX) {
+    int boardX(int componentX) {
         return (componentX * this.board.cols()) / this.getWidth();
     }
 
-    private int boardY(int componentY) {
+    int boardY(int componentY) {
         return (componentY * this.board.rows()) / this.getHeight();
     }
 
@@ -180,17 +177,4 @@ public final class BoardViewController
             return new Dimension(d.width, d.width * this.board.rows() / this.board.cols());
         }
     }
-
-    public void mouseClicked(MouseEvent e) {
-        int x = boardX(e.getX()), y = boardY(e.getY());
-
-        if (SwingUtilities.isLeftMouseButton(e))
-            this.board.uncover(x, y);
-        else if (SwingUtilities.isRightMouseButton(e))
-            this.board.toggleFlag(x, y);
-    }
-    public void mouseEntered(MouseEvent e) {}
-    public void mouseExited(MouseEvent e) {}
-    public void mousePressed(MouseEvent e) {}
-    public void mouseReleased(MouseEvent e) {}
 }

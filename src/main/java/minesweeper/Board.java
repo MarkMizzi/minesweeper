@@ -6,8 +6,8 @@ import java.util.Random;
 import java.util.Set;
 
 public class Board extends Model {
-    static public final int MINE_PLACEHOLDER = -1;
-    static public final int BLANK_CELL = 0;
+    static final int MINE_PLACEHOLDER = -1;
+    static final int BLANK_CELL = 0;
 
     private int[][] boardElems;
     // indicate which cells in the board are covered.
@@ -91,7 +91,7 @@ public class Board extends Model {
         }
     }
 
-    public void toggleFlag(int x, int y) {
+    void toggleFlag(int x, int y) {
         this.flaggedElems[x][y] = !this.flaggedElems[x][y];
         this.notifyViews();
     }

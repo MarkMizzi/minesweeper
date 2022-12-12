@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 import javax.swing.*;
 import java.awt.*;
 
-public class BoardViewControllerTests {
+public class BoardViewTests {
 
     @Test
     public void testPreferredSizeFitsParent() {
-        BoardViewController boardViewController = new BoardViewController(
+        BoardView boardView = new BoardView(
                 null,
                 new Board(16, 16, 40)
         );
@@ -18,12 +18,12 @@ public class BoardViewControllerTests {
         JPanel parent = new JPanel(new FlowLayout());
         parent.setSize(1024, 768);
 
-        parent.add(boardViewController);
+        parent.add(boardView);
 
         parent.revalidate();
 
         int parentHeight = parent.getHeight(), parentWidth = parent.getWidth();
-        Dimension preferredSize = boardViewController.getPreferredSize();
+        Dimension preferredSize = boardView.getPreferredSize();
 
         Assertions.assertEquals(
                 Math.min(parentHeight, parentWidth),
