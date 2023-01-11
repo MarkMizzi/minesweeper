@@ -116,31 +116,17 @@ public final class BoardView
         }
     }
 
-    // convert from board indices to locations/dimensions in the JPanel component
-    private int tileWidth() {
-        return this.getWidth() / this.board.cols();
-    }
+    // compute dimensions of a tile in the JPanel component
+    private float tileWidth() { return ((float)this.getWidth()) / this.board.cols(); }
+    private float tileHeight() { return ((float)this.getHeight()) / this.board.rows(); }
 
-    private int tileHeight() {
-        return this.getHeight() / this.board.rows();
-    }
-
-    private int tileX(int boardX) {
-        return boardX * this.tileWidth();
-    }
-
-    private int tileY(int boardY) {
-        return boardY * this.tileHeight();
-    }
+    // convert from board indices to locations in the JPanel component
+    private int tileX(int boardX) { return (int)(boardX * this.tileWidth()); }
+    private int tileY(int boardY) { return (int)(boardY * this.tileHeight()); }
 
     // convert from component locations to board indices
-    int boardX(int componentX) {
-        return (componentX * this.board.cols()) / this.getWidth();
-    }
-
-    int boardY(int componentY) {
-        return (componentY * this.board.rows()) / this.getHeight();
-    }
+    int boardX(int componentX) { return (componentX * this.board.cols()) / this.getWidth(); }
+    int boardY(int componentY) { return (componentY * this.board.rows()) / this.getHeight(); }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -157,8 +143,8 @@ public final class BoardView
                         ),
                         this.tileX(x),
                         this.tileY(y),
-                        this.tileWidth(),
-                        this.tileHeight(),
+                        (int)this.tileWidth(),
+                        (int)this.tileHeight(),
                         this
                 );
             }
